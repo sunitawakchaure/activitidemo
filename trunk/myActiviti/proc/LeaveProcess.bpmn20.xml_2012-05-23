@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions id="definitions"
+	xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" 
+	xmlns:activiti="http://activiti.org/bpmn" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL 
+                    http://www.omg.org/spec/BPMN/2.0/20100501/BPMN20.xsd"
+                    targetNamespace="Examples">
+
+	<process id="LeaveProcess">
+
+		<startEvent id="start" />
+		<sequenceFlow id="flow1" sourceRef="start" targetRef="apply" />
+		<userTask id='apply' name='important task' >
+        	<humanPerformer>
+          		<resourceAssignmentExpression>
+            		<formalExpression>#{owner}</formalExpression>
+          		</resourceAssignmentExpression>
+        	</humanPerformer>
+  		</userTask>
+  		<sequenceFlow id="flow2" sourceRef="apply" targetRef="m1_approve" />
+  		<userTask id="m1_approve" name="m1_approve" activiti:candidateGroups="1st_line_mgr" default="flow3_2"/>
+  		<sequenceFlow id="flow3_1" sourceRef="m1_approve" targetRef="m2_approve" >
+  			<conditionExpression xsi:type="tFormalExpression">
+    			<![CDATA[${day > 3}]]>
+  			</conditionExpression>
+  		</sequenceFlow>
+  		<sequenceFlow id="flow3_2" sourceRef="m1_approve" targetRef="finish" />
+  		
+  		<userTask id="m2_approve" name="m2_approve" activiti:candidateGroups="2nd_line_mgr" default="flow4_1" />
+  		<sequenceFlow id="flow4_1" sourceRef="m2_approve" targetRef="finish" />
+  		
+  		<endEvent id="finish" />
+
+	</process>
+
+</definitions>

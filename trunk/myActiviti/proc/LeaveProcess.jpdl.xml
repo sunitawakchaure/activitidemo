@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process name="LeaveProcess" xmlns="http://jbpm.org/4.4/jpdl">
+   <start g="144,24,92,52" name="start">
+      <transition to="apply"/>
+   </start>
+   <task g="120,120,92,52" name="apply" assignee="#{owner}">
+      <transition to="1st approve"/>
+   </task>
+   <task g="120,216,97,52" name="1st approve" candidate-groups="1st_line_mgr">
+      <transition g="5,-8" name="approve" to="exclusive"/>
+      <transition g="270,197:-27,-30" name="reject" to="apply"/>
+   </task>
+   <decision g="144,312,92,52" name="exclusive" expr="#{day > 3 ? 'escalate' : 'finish'}">
+      <transition to="2nd approve" name="escalate" g="-5,-22"/>
+      <transition g="-34,-13" name="finish" to="end"/>
+   </decision>
+   <end g="144,408,48,48" name="end"/>
+   <task g="240,348,97,52" name="2nd approve" candidate-groups="2nd_line_mgr">
+      <transition to="end"/>
+   </task>
+</process>

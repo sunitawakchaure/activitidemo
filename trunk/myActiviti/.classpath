@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="config"/>
+	<classpathentry kind="src" path="proc"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Activiti"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/activiti-engine-examples"/>
+	<classpathentry kind="lib" path="lib/drools-compiler-5.3.0.Final.jar"/>
+	<classpathentry kind="lib" path="lib/drools-core-5.3.0.Final.jar"/>
+	<classpathentry kind="lib" path="lib/antlr-runtime-3.3.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

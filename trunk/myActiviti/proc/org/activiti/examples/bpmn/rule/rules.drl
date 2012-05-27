@@ -1,0 +1,23 @@
+import demo.Order;
+
+rule "rule1"
+salience 100
+when
+   order : Order( type == "Type1" )
+then
+
+	order.setStatus(1);
+	System.out.println("Setting status in rule " + order);
+   insert( order );
+end
+
+rule "rule2"
+salience 101
+when
+   order : Order( type == "Type2" )
+then
+
+	order.setStatus(2);
+	System.out.println("Setting status in rule " + order);
+   insert( order );
+end
