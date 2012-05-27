@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions id="definitions"
+	xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" 
+	xmlns:activiti="http://activiti.org/bpmn" 
+	targetNamespace="Examples">
+	       
+  <process id="MyProcess2" name="BusMonitor Process">
+    <startEvent id="startevent1" name="Event Start"></startEvent>
+    <sequenceFlow id="flow8" name="flow8" sourceRef="startevent1" targetRef="endevent1"></sequenceFlow>
+    <endEvent id="endevent1" name="End Process"></endEvent>
+  </process>
+  
+  
+  
+</definitions>
