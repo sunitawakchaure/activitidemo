@@ -15,11 +15,9 @@ package org.nanquan.activiti.examples.bus;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 import nanquan.test.ActivitiTestBase;
 
-import org.activiti.engine.runtime.Execution;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.apache.commons.lang.math.RandomUtils;
 
@@ -35,12 +33,13 @@ public class BusMonitorTest extends ActivitiTestBase {
 	private String processInstanceId;
 	private String executionId;
 	
-	//Mail Config
+	//Mail Configuration
 	private String from = "nanquan520_tmp@126.com";
 	private String recipient = "nanquan520@qq.com";
     
 	
-  public void startEvent() {
+  @SuppressWarnings("unchecked")
+public void startEvent() {
 	  	Map map = new HashMap();
 	  	map.put("autoDueTime", autoDueTime);
 	  	BusEvent busEvent = new BusEvent();
