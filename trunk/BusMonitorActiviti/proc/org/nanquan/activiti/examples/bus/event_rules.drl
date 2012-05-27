@@ -1,0 +1,23 @@
+import org.nanquan.activiti.examples.bus.BusEvent;
+
+rule "rule1"
+salience 100
+when
+   busEvent : BusEvent( type == "Type1" )
+then
+
+	busEvent.setLevel(1);
+	System.out.println("Setting level in rule " + busEvent);
+   insert( busEvent );
+end
+
+rule "rule2"
+salience 101
+when
+   busEvent : BusEvent( type == "Type2" )
+then
+
+	busEvent.setLevel(2);
+	System.out.println("Setting level in rule " + busEvent);
+   insert( busEvent );
+end
