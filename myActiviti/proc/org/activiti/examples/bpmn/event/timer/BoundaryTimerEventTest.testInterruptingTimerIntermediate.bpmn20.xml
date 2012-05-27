@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions id="definitions"
+	xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" 
+	xmlns:activiti="http://activiti.org/bpmn" 
+	targetNamespace="Examples">
+
+	<process id="escalationExample3" name="Helpdesk process">
+
+		<startEvent id="theStart" >
+			<timerEventDefinition>
+                <timeDuration>PT1M</timeDuration>
+            </timerEventDefinition>
+		</startEvent>
+		<sequenceFlow id="flow1" sourceRef="theStart" targetRef="waitTimer" />
+		
+		<intermediateCatchEvent id="waitTimer">
+            <timerEventDefinition>
+                <timeDate>${taskStartTime}</timeDate>
+            </timerEventDefinition>
+        </intermediateCatchEvent>
+        <sequenceFlow id="flow1_2" sourceRef="waitTimer" targetRef="firstLineSupport" />
+
+		<userTask id="firstLineSupport" name="First line support" activiti:assignee="kermit">
+		  <documentation>Fix issue raised by customer</documentation>
+		</userTask>
+		<sequenceFlow id="flow2" sourceRef="firstLineSupport" targetRef="normalEnd" />
+
+		<endEvent id="normalEnd" />
+
+	</process>
+
+</definitions>

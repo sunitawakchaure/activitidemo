@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions id="definitions"
+	xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" 
+	xmlns:activiti="http://activiti.org/bpmn" 
+	targetNamespace="Examples">
+	
+<process id="simpleBusinessRuleProcess">
+  
+  <startEvent id="theStart" />
+  <sequenceFlow sourceRef="theStart" targetRef="servicetask1" />
+  
+  <serviceTask id="servicetask1" name="Service Task" activiti:class="org.activiti.examples.bpmn.businessrule.CreateRuleObjectDelegate"></serviceTask>
+  <sequenceFlow sourceRef="servicetask1" targetRef="businessRuleTask" />
+  
+  <businessRuleTask id="businessRuleTask" activiti:ruleVariablesInput="${order}"
+      activiti:resultVariable="rulesOutput" />
+        
+  <sequenceFlow sourceRef="businessRuleTask" targetRef="userTask1" />
+
+	<userTask id="userTask1" name="Verify monthly financial report" >
+	</userTask>
+	
+	<sequenceFlow sourceRef="userTask1" targetRef="theEnd" />
+	
+  <endEvent id="theEnd" />
+ 
+</process>
+</definitions>

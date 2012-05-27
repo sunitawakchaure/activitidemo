@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+  <bean id="processEngineConfiguration" class="org.activiti.engine.impl.cfg.StandaloneInMemProcessEngineConfiguration">
+  
+    <property name="jdbcUrl" value="jdbc:h2:tcp://localhost/activiti" />
+    <property name="jdbcDriver" value="org.h2.Driver" />
+    <property name="jdbcUsername" value="sa" />
+    <property name="jdbcPassword" value="" />
+    
+    <!-- Database configurations -->
+    <property name="databaseSchemaUpdate" value="true" />
+    
+    <!-- job executor configurations -->
+    <property name="jobExecutorActivate" value="true" />
+    
+    <!-- mail server configurations -->
+    <property name="mailServerHost" value="smtp.126.com" />
+    <property name="mailServerPort" value="25" />
+    <property name="mailServerUsername" value="nanquan520_tmp@126.com" />
+    <property name="mailServerPassword" value="passw0rd" />
+       
+    <property name="history" value="full" />
+    
+    <property name="customPostDeployers">
+		<list>
+			<bean class="org.activiti.engine.impl.rules.RulesDeployer" />
+		</list>
+	</property>
+
+  </bean>
+
+</beans>
