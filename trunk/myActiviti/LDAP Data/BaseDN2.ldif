@@ -1,0 +1,11 @@
+dn: dc=nanquan
+dc: nanquan
+objectClass: domain
+
+dn: ou=members,dc=nanquan
+ou: members
+objectClass: organizationalUnit
+
+dn: ou=groups,dc=nanquan
+ou: groups
+objectClass: organizationalUnit
