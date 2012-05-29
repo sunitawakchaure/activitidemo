@@ -18,11 +18,11 @@
     <property name="jobExecutorActivate" value="true" />
     
     <!-- mail server configurations -->
-    <property name="mailServerHost" value="smtp.126.com" />
-    <property name="mailServerPort" value="25" />
-    <property name="mailServerUsername" value="nanquan520_tmp@126.com" />
-    <property name="mailServerPassword" value="passw0rd" />
-        
+    <property name="mailServerHost" value="smtp.gmail.com" />
+    <property name="mailServerPort" value="465" />
+    <property name="mailServerUsername" value="nanquan520.tmp@gmail.com" />
+    <property name="mailServerPassword" value="passw1rd" />
+    
     <property name="history" value="full" />
     
     <property name="customPostDeployers">

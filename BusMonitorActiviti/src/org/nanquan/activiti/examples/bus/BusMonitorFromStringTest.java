@@ -13,18 +13,22 @@
 
 package org.nanquan.activiti.examples.bus;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 import nanquan.test.ActivitiTestBase;
 
 import org.activiti.engine.runtime.ProcessInstance;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.math.RandomUtils;
 
 /**
  * @author nanquan
  */
-public class BusMonitorTest extends ActivitiTestBase {
+public class BusMonitorFromStringTest extends ActivitiTestBase {
 
 	private String autoDueTime = "PT1M";
 	private String key = "BusMonitorProcess";
@@ -39,7 +43,7 @@ public class BusMonitorTest extends ActivitiTestBase {
 //	private String recipient = "nanquan520@qq.com";
 	private String recipient = "wanghcdl@cn.ibm.com";
 
-	public BusMonitorTest() {
+	public BusMonitorFromStringTest() {
 		System.setProperty("mail.smtp.auth", "true");
 //		System.setProperty("mail.smtp.socketFactory.port", "465");
 		System.setProperty("mail.smtp.socketFactory.class",
@@ -72,13 +76,21 @@ public class BusMonitorTest extends ActivitiTestBase {
 		// runtimeService.signalEventReceived(signal, executionId);
 	}
 
-	public static void main(String[] args) {
-		BusMonitorTest test = new BusMonitorTest();
+	public static void main(String[] args) throws IOException {
+		BusMonitorFromStringTest test = new BusMonitorFromStringTest();
 		String deployFile = "archive/BusMonitorProcess.zip";
-		String deploymentName = "BusMonitorProcessDeployment";
-		test.loadProcessByZip(deployFile, deploymentName);
-		// test.loadProcess("org/nanquan/activiti/examples/bus/BusMonitorProcess.bpmn20.xml",
-		// deploymentName);
+		String deploymentName = "BusMonitorProcessDeployment2";
+//		test.loadProcessByZip(deployFile, deploymentName);
+//		 test.loadProcess(new String[]{"org/nanquan/activiti/examples/bus/BusMonitorProcess.bpmn20.xml", "org/nanquan/activiti/examples/bus/event_rules.drl"},
+//		 deploymentName);
+		
+		String busMonitorProcess = FileUtils.readFileToString(new File("proc/org/nanquan/activiti/examples/bus/BusMonitorProcess.bpmn20.xml"));
+		String event_rules = FileUtils.readFileToString(new File("proc/org/nanquan/activiti/examples/bus/event_rules.drl"));
+		
+		Map<String, String> resources = new HashMap<String, String>();
+		resources.put("BusMonitorProcess.bpmn20.xml", busMonitorProcess);
+		resources.put("event_rules.drl", event_rules);
+		test.loadProcessByString(deploymentName, resources);
 
 		try {
 			test.startEvent();
