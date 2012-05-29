@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.Map;
 import java.util.zip.ZipInputStream;
 
 import org.activiti.engine.FormService;
@@ -104,6 +105,45 @@ public class ActivitiTestBase {
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
+		}
+	}
+	
+	public void loadProcessByString(String deploymentName, String resourceName, String text) {
+		if (text != null && text != "") {
+
+			// Get Activiti services
+			RepositoryService repositoryService = processEngine
+					.getRepositoryService();
+			RuntimeService runtimeService = processEngine.getRuntimeService();
+			TaskService taskService = processEngine.getTaskService();
+
+			// Deploy the process definition
+			Deployment deployment = repositoryService.createDeployment()
+					.name(deploymentName).addString(resourceName, text)
+					.deploy();
+			deploymentId = deployment.getId();
+			// repositoryService.activateProcessDefinitionByKey("financialReport");
+		}
+	}
+	
+	public void loadProcessByString(String deploymentName, Map<String, String> resources) {
+		if (resources != null && resources.size() > 0) {
+			// Get Activiti services
+			RepositoryService repositoryService = processEngine
+			.getRepositoryService();
+			RuntimeService runtimeService = processEngine.getRuntimeService();
+			TaskService taskService = processEngine.getTaskService();
+			
+			
+			DeploymentBuilder deploymentBuilder = repositoryService
+					.createDeployment().name(deploymentName);
+			
+			for (Map.Entry<String, String> entry : resources.entrySet()) {
+				String resourceName = entry.getKey(), text = entry.getValue();
+				deploymentBuilder.addString(resourceName, text);
+			}
+			Deployment deployment = deploymentBuilder.deploy();
+			deploymentId = deployment.getId();
 		}
 	}
 
