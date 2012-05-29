@@ -1,0 +1,20 @@
+dn: cn=grp1,ou=groups,dc=nanquan
+cn: grp1
+objectClass: groupOfUniqueNames
+objectClass: top
+uniqueMember: cn=user1,ou=members,dc=nanquan
+uniqueMember: cn=user2,ou=members,dc=nanquan
+
+dn: cn=grp2,ou=groups,dc=nanquan
+cn: grp2
+objectClass: groupOfUniqueNames
+objectClass: top
+uniqueMember: cn=user3,ou=members,dc=nanquan
+uniqueMember: cn=user4,ou=members,dc=nanquan
+
+dn: cn=grp3,ou=groups,dc=nanquan
+cn: grp3
+objectClass: groupOfUniqueNames
+objectClass: top
+uniqueMember: cn=user3,ou=members,dc=nanquan
+uniqueMember: cn=user2,ou=members,dc=nanquan

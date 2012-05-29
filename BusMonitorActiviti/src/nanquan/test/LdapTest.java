@@ -22,11 +22,8 @@ public class LdapTest {
 		LDAPUserManager userManager = new LDAPUserManager(connectionParams);
 		LDAPGroupManager groupManager = new LDAPGroupManager(connectionParams);
 		
-//		Boolean checkPassword = userManager.checkPassword("admin", "passw0rd");
-//		System.out.println(checkPassword);
-		
-//		UserEntity userEntity = userManager.findUserById("admin");
-//		System.out.println(userEntity.getPassword());
+		Boolean checkPassword = userManager.checkPassword("admin", "passw0rd");
+		System.out.println(checkPassword);
 		
 		UserQueryImpl query = new UserQueryImpl();
 		query.userId("admin");
@@ -34,12 +31,12 @@ public class LdapTest {
 		System.out.println(size);
 		
 		GroupQueryImpl groupQuery = new GroupQueryImpl();
-//		groupQuery.groupId("AdminGroup");
+		groupQuery.groupId("AdminGroup");
 		long groupSize = groupManager.findGroupCountByQueryCriteria(groupQuery);
 		System.out.println(groupSize);
 		
-		Boolean checkPassword = userManager.checkPassword("admin01", "passw0rd");
-		System.out.println(checkPassword);
+//		Boolean checkPassword = userManager.checkPassword("admin01", "passw0rd");
+//		System.out.println(checkPassword);
 		
 	}
 
