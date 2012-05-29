@@ -6,14 +6,18 @@
 
   <bean id="processEngineConfiguration" class="org.activiti.engine.impl.cfg.StandaloneInMemProcessEngineConfiguration">
   
+  	<property name="jdbcUrl" value="jdbc:h2:tcp://localhost/activiti" />
+    <property name="jdbcDriver" value="org.h2.Driver" />
+    <property name="jdbcUsername" value="sa" />
+    <property name="jdbcPassword" value="" />
     <property name="databaseSchemaUpdate" value="true" />
     
     <property name="customSessionFactories">
       <list>
-        <bean class="org.bpmnwithactiviti.chapter10.ldap.LDAPUserManagerFactory">
+        <bean class="nanquan.test.ldap.LDAPUserManagerFactory">
           <constructor-arg ref="ldapConnectionParams" />
         </bean>
-        <bean class="org.bpmnwithactiviti.chapter10.ldap.LDAPGroupManagerFactory">
+        <bean class="nanquan.test.ldap.LDAPGroupManagerFactory">
           <constructor-arg ref="ldapConnectionParams" />
         </bean>
       </list>
