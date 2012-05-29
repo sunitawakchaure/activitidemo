@@ -17,49 +17,38 @@ import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.task.Task;
 
+/**
+ * Integrate LDAP Test
+ * @author wh
+ *
+ */
 public class ProcessManager {
 
-	private String pid = "LeaveProcess-1";
 	private String key = "LeaveProcess";
-	private String name = "Sun Teng";
-	private String firstMgr = "Jack Zhang";
-	private String firstMgrGroup = "1st_line_mgr";
-	private String secondMgr = "Mike";
+	private String name = "admin01";
+	
+	private String firstMgr = "admin02";
+	private String firstMgrGroup = "AdminGroup";
+	private String secondMgr = "admin03";
 //	private String secondMgr = firstMgr;
-	private String secondMgrGroup = "2nd_line_mgr";
-	private String deploymentName = "LeaveProcess";
+	private String secondMgrGroup = "AdminGroup";
+	private String deploymentName = "LeaveProcessForLdap";
 	private ProcessEngine pe = null;
+	
+	private String deploymentId;
 
 	private ProcessEngine getProcessEngine() {
 		if (pe == null) {
 
-			ProcessEngine processEngine = ActivitiHelper.getProcessEngine();
+			ProcessEngine processEngine = ProcessEngineConfiguration
+			   .createProcessEngineConfigurationFromResource("activiti.cfg-mem-ldap.xml")
+			   .buildProcessEngine();
+//			ProcessEngine processEngine = ActivitiHelper.getProcessEngine();
 			// ProcessEngines.getDefaultProcessEngine()
 			pe = processEngine;
 		}
 		return pe;
 	}
-
-	/*
-	 * private void loadProcess(String deployFile) { if (deployFile != null &&
-	 * deployFile != "") {
-	 * 
-	 * // init process engine
-	 * 
-	 * ProcessEngine processEngine = getProcessEngine(); RepositoryService
-	 * repositoryService = processEngine .getRepositoryService();
-	 * 
-	 * try { String file = deployFile;
-	 * 
-	 * // put zip file into IO stream InputStream is = new FileInputStream(new
-	 * File(file)); ZipInputStream zis = new ZipInputStream(is);
-	 * 
-	 * // publish zip file to process vm repositoryService.createDeployment()
-	 * .addZipInputStream(zis).deploy(); zis.close(); is.close();
-	 * 
-	 * System.out.println("Publish succeed."); } catch (Exception e) {
-	 * e.printStackTrace(); System.out.println("Publish failed."); } } }
-	 */
 
 	private void loadProcess(String deployFile) {
 		if (deployFile != null && deployFile != "") {
@@ -76,6 +65,7 @@ public class ProcessManager {
 			Deployment deployment = repositoryService.createDeployment()
 					.name(deploymentName).addClasspathResource(deployFile)
 					.deploy();
+			deploymentId = deployment.getId();
 			// repositoryService.activateProcessDefinitionByKey("financialReport");
 		}
 	}
@@ -190,9 +180,9 @@ public class ProcessManager {
 			System.out.println(tk.getId() + "\t| " + tk.getName() + "\t| "
 					+ tk.getAssignee() + "\t| " + tk.getCreateTime());
 		}
-
+		
 		List<Task> firstLineMgrTaskList = taskService.createTaskQuery()
-				.taskCandidateGroup(firstMgr).list();
+				.taskCandidateGroup(firstMgrGroup).list();
 		// List<Task> firstLineMgrTaskList =
 		// taskService.findGroupTasks(firstMgr);
 		System.out.println("1st Line Manager Task >>");
@@ -205,7 +195,7 @@ public class ProcessManager {
 		// List<Task> secondLineMgrTaskList = taskService
 		// .findGroupTasks(secondMgr);
 		List<Task> secondLineMgrTaskList = taskService.createTaskQuery()
-				.taskCandidateGroup(firstMgr).list();
+				.taskCandidateGroup(secondMgrGroup).list();
 		System.out.println("2nd Line Manager Task >>");
 		System.out.println("Task ID\t| Task Name\t| Assignee\t| Crate Time");
 		for (Task tk : secondLineMgrTaskList) {
@@ -264,7 +254,7 @@ public class ProcessManager {
 		// List<Task> firstLineMgrGroupTaskList = taskService
 		// .findGroupTasks(firstMgr);
 		List<Task> firstLineMgrGroupTaskList = taskService.createTaskQuery()
-				.taskCandidateUser(firstMgr).list();
+				.taskCandidateGroup(firstMgrGroup).list();
 		for (Task tk : firstLineMgrGroupTaskList) {
 			// taskService.takeTask(tk.getId(), firstMgr);
 			taskService.claim(tk.getId(), firstMgr);
@@ -298,7 +288,7 @@ public class ProcessManager {
 		// List<Task> secondLineMgrGroupTaskList = taskService
 		// .findGroupTasks(secondMgr);
 		List<Task> secondLineMgrGroupTaskList = taskService.createTaskQuery()
-				.taskCandidateUser(secondMgr).list();
+				.taskCandidateGroup(secondMgrGroup).list();
 		for (Task tk : secondLineMgrGroupTaskList) {
 			// taskService.takeTask(tk.getId(), secondMgr);
 			taskService.claim(tk.getId(), secondMgr);
@@ -330,9 +320,9 @@ public class ProcessManager {
 
 	public static void main(String[] args) throws InterruptedException {
 		ProcessManager manager = new ProcessManager();
-		String deployFile = "LeaveProcess.bpmn20.xml_2012-05-23";//LeaveProcess.bpmn20.xml_2012-05-23 
-//		 manager.loadProcess(deployFile);
-		manager.buildGroupMember();
+		String deployFile = "LeaveProcess.bpmn20.xml";//LeaveProcess.bpmn20.xml_2012-05-23 
+		 manager.loadProcess(deployFile);
+//		manager.buildGroupMember();
 		manager.viewProcess();
 		manager.startProcess();
 		manager.viewTask();
@@ -340,6 +330,7 @@ public class ProcessManager {
 		manager.firstApprove();
 		manager.secondApprove();
 		manager.viewTask();
-//		 manager.unloadProcess("1310");
+		
+		 manager.unloadProcess(manager.deploymentId);
 	}
 }

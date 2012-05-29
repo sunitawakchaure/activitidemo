@@ -2,7 +2,6 @@ package nanquan.test.ldap;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import org.activiti.engine.ActivitiException;
@@ -13,13 +12,9 @@ import org.activiti.engine.impl.persistence.entity.GroupEntity;
 import org.activiti.engine.impl.persistence.entity.GroupManager;
 import org.apache.commons.lang.StringUtils;
 import org.apache.directory.ldap.client.api.LdapConnection;
-import org.apache.directory.shared.dsmlv2.reponse.SearchResponse;
-import org.apache.directory.shared.ldap.model.cursor.Cursor;
 import org.apache.directory.shared.ldap.model.cursor.EntryCursor;
-import org.apache.directory.shared.ldap.model.cursor.SearchCursor;
 import org.apache.directory.shared.ldap.model.entry.Attribute;
 import org.apache.directory.shared.ldap.model.entry.Entry;
-import org.apache.directory.shared.ldap.model.message.SearchResultEntry;
 import org.apache.directory.shared.ldap.model.message.SearchScope;
 
 public class LDAPGroupManager extends GroupManager {
@@ -98,6 +93,7 @@ public class LDAPGroupManager extends GroupManager {
 						group.setName(attribute.getString());
 					}
 				}
+				groupList.add(group);
 			}
 
 			search.close();
@@ -144,6 +140,7 @@ public class LDAPGroupManager extends GroupManager {
 						group.setName(attribute.getString());
 					}
 				}
+				groupList.add(group);
 			}
 
 			search.close();
