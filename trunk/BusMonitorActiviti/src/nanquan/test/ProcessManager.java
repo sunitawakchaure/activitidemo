@@ -15,6 +15,7 @@ import org.activiti.engine.identity.Group;
 import org.activiti.engine.identity.User;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
+import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 
 /**
@@ -156,7 +157,8 @@ public class ProcessManager {
 		// processEngine.getRuntimeService().startProcessInstanceById(pid, map);
 		// System.out.println("Process " + pid + " started.");
 
-		processEngine.getRuntimeService().startProcessInstanceByKey(key, map);
+		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey(key, map);
+		
 		System.out.println("Process " + key + " started.");
 
 	}

@@ -75,6 +75,15 @@ public class BusMonitorFromStringTest extends ActivitiTestBase {
 
 		// runtimeService.signalEventReceived(signal, executionId);
 	}
+	
+	public void suspendProcessInstance() {
+		runtimeService.suspendProcessInstanceById(processInstanceId);
+	}
+	
+	public void activateProcessInstance() {
+		runtimeService.activateProcessInstanceById(processInstanceId);
+	}
+	
 
 	public static void main(String[] args) throws IOException {
 		BusMonitorFromStringTest test = new BusMonitorFromStringTest();
@@ -95,6 +104,9 @@ public class BusMonitorFromStringTest extends ActivitiTestBase {
 		try {
 			test.startEvent();
 
+			test.suspendProcessInstance();
+			test.activateProcessInstance();
+			
 			test.signalEvent();
 		} catch (Exception e) {
 			e.printStackTrace();
