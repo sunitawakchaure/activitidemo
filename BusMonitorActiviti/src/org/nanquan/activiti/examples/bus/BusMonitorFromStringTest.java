@@ -86,6 +86,7 @@ public class BusMonitorFromStringTest extends ActivitiTestBase {
 	
 
 	public static void main(String[] args) throws IOException {
+		System.out.println("Start Main:" + System.currentTimeMillis());
 		BusMonitorFromStringTest test = new BusMonitorFromStringTest();
 		String deployFile = "archive/BusMonitorProcess.zip";
 		String deploymentName = "BusMonitorProcessDeployment2";
@@ -93,19 +94,22 @@ public class BusMonitorFromStringTest extends ActivitiTestBase {
 //		 test.loadProcess(new String[]{"org/nanquan/activiti/examples/bus/BusMonitorProcess.bpmn20.xml", "org/nanquan/activiti/examples/bus/event_rules.drl"},
 //		 deploymentName);
 		
+		System.out.println("Start ReadFile&Load Process:" + System.currentTimeMillis());
 		String busMonitorProcess = FileUtils.readFileToString(new File("proc/org/nanquan/activiti/examples/bus/BusMonitorProcess.bpmn20.xml"));
 		String event_rules = FileUtils.readFileToString(new File("proc/org/nanquan/activiti/examples/bus/event_rules.drl"));
 		
+		System.out.println("Start Load Process:" + System.currentTimeMillis());
 		Map<String, String> resources = new HashMap<String, String>();
 		resources.put("BusMonitorProcess.bpmn20.xml", busMonitorProcess);
 		resources.put("event_rules.drl", event_rules);
 		test.loadProcessByString(deploymentName, resources);
+		System.out.println("Finish Load Process:" + System.currentTimeMillis());
 
 		try {
 			test.startEvent();
 
-			test.suspendProcessInstance();
-			test.activateProcessInstance();
+//			test.suspendProcessInstance();
+//			test.activateProcessInstance();
 			
 			test.signalEvent();
 		} catch (Exception e) {
@@ -113,6 +117,9 @@ public class BusMonitorFromStringTest extends ActivitiTestBase {
 		}
 
 		test.unloadProcess();
+		System.out.println("Start Unload Process:" + System.currentTimeMillis());
+		
+		System.out.println("End Main:" + System.currentTimeMillis());
 	}
 
 }
